@@ -1,5 +1,7 @@
 package com.oraclejava.springrest;
 
+import com.oraclejava.springrest.dtos.MovieDetailDto;
+import com.oraclejava.springrest.dtos.MovieSummaryDto;
 import com.oraclejava.springrest.models.Genre;
 import com.oraclejava.springrest.models.Movie;
 import com.oraclejava.springrest.repositories.GenreRepository;
@@ -24,24 +26,31 @@ public class movieRestController {
     @Autowired
     private GenreRepository genreRepository;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public List<Movie> getMovie(){
-        List<Movie> movies = movieRepository.findAll();
-        System.out.println(movies);
+    //@RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping(value ={"", "/"})
+    public List<MovieSummaryDto> getMovie(){
+        List<MovieSummaryDto> movies = movieRepository.findMovieSummaries();
         return movies;
     }
     //GET/movie/1 1번 영화 조회
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Movie> getMovie(@PathVariable long id){
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<MovieDetailDto> getMovie(@PathVariable long id) {
         Optional<Movie> movie = movieRepository.findById(id);
         if (movie.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else {
-            return new ResponseEntity<>(movie.get(), HttpStatus.OK);
+            Movie realMovie = movie.get();
+            MovieDetailDto dto = new MovieDetailDto(
+                    (int)realMovie.getId(), realMovie.getName(),
+                    (int)realMovie.getGenre().getId(),
+                    realMovie.getPrice(),
+                    realMovie.getReleaseYear()
+            );
+            return new ResponseEntity<>(dto, HttpStatus.OK);
         }
     }
     // POST/MOVIES
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie){
         Genre genre = genreRepository.findById(movie.getGenreId()).orElseThrow();
         movie.setGenre(genre);
@@ -53,7 +62,8 @@ public class movieRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    //@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Void> updateMovie(@PathVariable long id, @RequestBody Movie movie){
 
         Optional<Movie> foundMovie = movieRepository.findById(id);
@@ -62,7 +72,6 @@ public class movieRestController {
         }
 
         Movie realFoundMovie = foundMovie.get();
-        //System.out.println(realFoundMovie);
         realFoundMovie.setName(movie.getName());
         realFoundMovie.setPrice(movie.getPrice());
         realFoundMovie.setReleaseYear(movie.getReleaseYear());
@@ -76,7 +85,8 @@ public class movieRestController {
 
     //DELETE /movies/15 -> 15번 영화를 삭제
     @Transactional
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    //@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable long id){
         movieRepository.deleteById(id);
         return ResponseEntity.noContent().build();
