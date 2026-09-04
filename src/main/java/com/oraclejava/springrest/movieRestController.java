@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/movies")
+@RequestMapping(value = "/api/movies")
 public class movieRestController {
 
     @Autowired
