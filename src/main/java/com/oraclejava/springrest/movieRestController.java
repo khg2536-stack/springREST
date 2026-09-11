@@ -8,12 +8,10 @@ import com.oraclejava.springrest.repositories.GenreRepository;
 import com.oraclejava.springrest.repositories.MovieRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,10 +53,6 @@ public class movieRestController {
         Genre genre = genreRepository.findById(movie.getGenreId()).orElseThrow();
         movie.setGenre(genre);
         movieRepository.save(movie);
-
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(URI.create("/movies/" + movie.getId()));
-//        return new ResponseEntity<>(headers, HttpStatus.FOUND); // 302 redirect
         return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
 
@@ -85,7 +79,6 @@ public class movieRestController {
 
     //DELETE /movies/15 -> 15번 영화를 삭제
     @Transactional
-    //@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable long id){
         movieRepository.deleteById(id);

@@ -13,14 +13,15 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class LoginController {
+public class loginController {
 
     @Autowired
     private MemberRepository memberRepository;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(
-            @RequestBody LoginRequestDto request,
+            @RequestBody
+            LoginRequestDto request,
             HttpSession session
     ) {
         Member member = memberRepository
@@ -32,11 +33,11 @@ public class LoginController {
                     .body("아이디가 없습니다.");
         }
 
-        session.setAttribute("LoginUser", member.getUsename());
+        session.setAttribute("LoginUser", member.getUsername());
         session.setAttribute("LoginUserId", member.getId());
 
         return ResponseEntity.ok(
-                Map.of("username", member.getUsename())
+                Map.of("username", member.getUsername())
         );
     }
 

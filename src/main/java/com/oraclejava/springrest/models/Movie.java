@@ -9,12 +9,16 @@ public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String name;
-
     private Integer price;
-
     private Integer releaseYear;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "genreId")
+    private Genre genre;
+
+    @Transient
+    private long genreId;
 
     public long getGenreId() {
         return genreId;
@@ -28,12 +32,6 @@ public class Movie {
         return genre;
     }
 
-    @Transient
-    private long genreId;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "genreId")
-    private Genre genre;
 
     public long getId() {
         return id;
@@ -66,10 +64,6 @@ public class Movie {
     public void setReleaseYear(Integer releaseYear) {
         this.releaseYear = releaseYear;
     }
-
-//    public Genre getGenre() {
-//        return genre;
-//    }
 
     public void setGenre(Genre genre) {
         this.genre = genre;

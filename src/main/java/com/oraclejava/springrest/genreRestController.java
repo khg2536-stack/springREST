@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/genres")
 public class genreRestController {
+
     @Autowired
     private GenreRepository genreRepository;
 

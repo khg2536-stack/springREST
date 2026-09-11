@@ -13,9 +13,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @Query("""
         select new com.oraclejava.springrest.dtos.MovieSummaryDto(
-            m.id, m.name, m.genre.name, m.price, m.releaseYear
-            )
-        from Movie m
+                    m.id, m.name, m.genre.name, m.price, m.releaseYear
+                    )
+                from Movie m
     """)
 
     List<MovieSummaryDto> findMovieSummaries();
