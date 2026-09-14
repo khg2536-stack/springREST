@@ -31,7 +31,6 @@ public class MovieRestController {
     //---------------------------------------------------------------------
     //모든 영화 조회 select * from movie
     @RequestMapping(value = "", method = RequestMethod.GET)
-    //@GetMapping(value ={"", "/"})
     public List<MovieSummaryDto> getMovie(){
         List<MovieSummaryDto> movies = movieRepository.findMovieSummaries();
         return movies;
