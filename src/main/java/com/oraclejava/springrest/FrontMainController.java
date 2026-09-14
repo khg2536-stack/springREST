@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping({"/", "/main"})
-public class frontMainController {
+public class FrontMainController {
 
     @GetMapping
     public String welcomePage(){
