@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "movie")
 public class Movie {
 
+    //DB에서 데이터를 조회·저장하는 기능 제공
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+//DB에서 데이터를 조회·저장하는 기능 제공
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 

@@ -41,6 +41,7 @@ public class MovieRestController {
     //GET/movie/{id} {id}번 영화 조회
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<MovieDetailDto> getMovie(@PathVariable long id) {
+        //                      Repository에 “이 번호의 제품을 찾아줘”라고 요청
         Optional<Movie> movie = movieRepository.findById(id);
         if (movie.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
